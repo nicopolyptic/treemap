@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="kinetic-v3.9.6.js"></script>
+<script type="text/javascript" src="squarifier.js"></script>
+
+<script type="text/javascript">
+
+    $(function(){
+        var WIDTH = 600;
+        var HEIGHT = 400;
+        var stage = new Kinetic.Stage({
+            container: "container",
+            width: WIDTH,
+            height: HEIGHT
+        });
+
+        var layer = new Kinetic.Layer();
+        var textLayer = new Kinetic.Layer();
+        var linearGrad = function(w,h) {
+            return {
+                start: {
+                    x: 0,
+                    y: 0
+                },
+                end: {
+                    x: w,
+                    y: h
+                },
+                colorStops: [0, '#9DC1FC', 1, '#284675']
+            };
+        };
+
+        var linearGradOver = function(w,h) {
+            return {
+                start: {
+                    x: 0,
+                    y: 0
+                },
+                end: {
+                    x: w,
+                    y: h
+                },
+                colorStops: [0, 'blue', 1, 'red']
+            }
+        };
+
+        var renderer = function(x,y,w,h) {
+
+            var text = new Kinetic.Shape({
+                drawFunc: function(){
+                var context = this.getContext();
+                context.font = "italic 12pt Calibri";
+                context.fillStyle="black";
+                context.fillText("Hello World!", x, y+40);
+                }
+            });
+            textLayer.add(text);
+
+            var gi = linearGradOver(w,h);
+            var go = linearGrad(w,h);
+
+            var rect = new Kinetic.Rect({
+                    x:x,
+                    y:y,
+                    width:w,
+                    height:h,
+                    stroke:"black",
+                    strokeWidht:1,
+                    fill: go
+            });
+
+            rect.on("mouseover", function(evt) {
+                rect.setFill(gi);
+                layer.draw();
+            });
+            rect.on("mouseout", function(evt) {
+                rect.setFill(go);
+                layer.draw();
+            });
+
+            layer.add(rect);
+        };
+
+        var A = [{weight:100, data:1},{weight:200,data:2},{weight:50,data:2},{weight:30,data:2},{weight:32,data:2},{weight:35,data:2},{weight:25,data:2}, {weight:15,data:2},{weight:13,data:2},{weight:20,data:2},{weight:12,data:2},{weight:10,data:2},{weight:8,data:2},{weight:6,data:2},{weight:6,data:2},{weight:5,data:2},{weight:4,data:2},{weight:3,data:2},{weight:2,data:2},{weight:2,data:2},{weight:1,data:2}];
+        var squarifier = new io.github.nicnguyen.treemap.Squarifier();
+        squarifier.squarify(A, WIDTH, HEIGHT, renderer);
+
+        stage.add(layer);
+    });
+</script>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>
