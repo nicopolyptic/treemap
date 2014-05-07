@@ -7,4 +7,4 @@ An implementation for laying out rectangles in a Treemap, using the algorithm fr
 
 JavaScript is generated from TypeScript source.
 
-See treemap.html for a usage demo or my previous blog post for an end result: http://nicnguyen.github.io/2012/06/04/Squarified-Treemaps-with-HTML5.html.
+See treemap.html for a usage demo or my previous blog post for an end result: http://nicopolyptic.github.io/2012/06/04/Squarified-Treemaps-with-HTML5.html.
