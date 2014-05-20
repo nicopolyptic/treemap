@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 
     typescript: {
       base: {
-        src: ['*.ts'],
+        src: ['src/main/ts/*.ts'],
         dest: 'target/js/<%= pkg.name %>.js',
         options: {
           target: 'es5', //or es3
