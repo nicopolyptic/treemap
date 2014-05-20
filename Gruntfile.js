@@ -17,7 +17,7 @@ module.exports = function(grunt) {
     typescript: {
       base: {
         src: ['*.ts'],
-        dest: 'target/js/treemap.js',
+        dest: 'target/js/<%= pkg.name %>.js',
         options: {
           target: 'es5', //or es3
           basePath: '/',
