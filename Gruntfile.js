@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*\n<%= grunt.file.read("banner.txt") %> \n*/'
       },
       build: {
         src: 'target/js/<%= pkg.name %>.js',
