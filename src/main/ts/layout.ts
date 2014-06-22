@@ -37,6 +37,6 @@ module treemap {
     }
 
     export function yMargin(tileSize : Size) : number {
-        return 0;//tileMarginPercentage() * tileSize.height;
+        return tileMarginPercentage() * tileSize.height;
     }
 }

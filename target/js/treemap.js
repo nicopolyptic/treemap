@@ -79,7 +79,7 @@ var treemap;
     treemap.xMargin = xMargin;
 
     function yMargin(tileSize) {
-        return 0;
+        return tileMarginPercentage() * tileSize.height;
     }
     treemap.yMargin = yMargin;
 })(treemap || (treemap = {}));
