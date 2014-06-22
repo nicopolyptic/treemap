@@ -1,8 +1,17 @@
-module io.github.nicnguyen.treemap {
+/**
+    _   ___                        __            __  _
+   / | / (_)________  ____  ____  / /_  ______  / /_(_)____
+  /  |/ / / ___/ __ \/ __ \/ __ \/ / / / / __ \/ __/ / ___/
+ / /|  / / /__/ /_/ / /_/ / /_/ / / /_/ / /_/ / /_/ / /__
+/_/ |_/_/\___/\____/ .___/\____/_/\__, / .___/\__/_/\___/
+                  /_/            /____/_/
+**/
 
-    export class Squarifier {
+module treemap {
 
-        public squarify(
+    class Squarifier {
+
+        public static squarify(
             nodes: Node[],
             width: number,
             height: number,
@@ -59,26 +68,26 @@ module io.github.nicnguyen.treemap {
             }
         }
 
-        private worst(s: number, min: number, max: number, w: number) {
+        private static worst(s: number, min: number, max: number, w: number) {
             return Math.max(w*w*max/(s*s), s*s/(w*w*min));
         }
 
-        private scaleWeights(weights: Node[], width:number, height: number) {
+        private static scaleWeights(weights: Node[], width:number, height: number) {
             var scale = width*height/this.sum(weights);
             for (var i = 0; i < weights.length; i ++) {
                 weights[i].weight = scale * weights[i].weight;
             }
         }
 
-        private max(array: Node[]) {
+        private static max(array: Node[]) {
             return Math.max.apply( Math, this.weights(array) );
         }
 
-        private min(array: Node[]) {
+        private static min(array: Node[]) {
             return Math.min.apply( Math, this.weights(array) );
         }
 
-        private sum(array: Node[]) {
+        private static sum(array: Node[]) {
             var total = 0;
             for (var i = 0; i < array.length; ++i) {
                 total = total + array[i].weight;
@@ -86,45 +95,53 @@ module io.github.nicnguyen.treemap {
             return total;
         }
 
-        private weights(array: Node[]) {
+        private static weights(array: Node[]) {
             return array.map(d => d.weight, array);
         }
+    }
 
-        private PERCENTAGE_OF_HEIGHT_FOR_TITLE : number = 0.1;
-
-        public squarifyTreeWithRootNode(rootNode : Node) {
-            InternalNode.weigh(rootNode);
-            var nodes = new Array<Node>();
-            nodes.push(rootNode);
-            while(nodes.length > 0) {
-                 var node = nodes.shift();
-                 if (node.data) {
-                    node.titleRectangle = {
-                        x:node.rectangle.x, y:node.rectangle.y,
-                        width:node.rectangle.width, height:node.rectangle.height* (1-this.PERCENTAGE_OF_HEIGHT_FOR_TITLE)
-                    };
-                    node.rectangle.y = node.rectangle.y + this.PERCENTAGE_OF_HEIGHT_FOR_TITLE * node.rectangle.height;
-                    node.rectangle.height = (1-this.PERCENTAGE_OF_HEIGHT_FOR_TITLE) * node.rectangle.height;
-                 }
-                 this.squarify(
+    export function squarify(
+                rootNode : Node,
+                f: (x:number,y:number,width:number,height:number,node:Node) => void
+    ) {
+        InternalNode.weigh(rootNode);
+        var nodes = new Array<Node>();
+        nodes.push(rootNode);
+        // level ordered traversal
+        while(nodes.length > 0) {
+             var node = nodes.shift();
+             if (node.nodes && node.nodes.length > 0) {
+                 Squarifier.squarify(
                     node.nodes,
-                    node.rectangle.width,
-                    node.rectangle.height,
+                    node.frame.width,
+                    node.frame.height,
                     (x:number,y:number,width:number,height:number, n:Node) => {
-                        n.rectangle = {
-                            x:node.rectangle.x+x,
-                            y:node.rectangle.y+y,
+                        n.frame = {
+                            x:node.frame.x+x,
+                            y:node.frame.y+y,
                             width:width,
                             height:height
                         };
                     }
                  );
+
                  for (var i =0; i < node.nodes.length; ++i) {
                     var childNode = node.nodes[i];
                     if (childNode.nodes && childNode.nodes.length >0) {
                         nodes.push(childNode);
                     }
                  }
+             }
+        }
+
+        nodes.push(rootNode);
+        while (nodes.length > 0) {
+            var node = nodes.pop();
+            f(node.frame.x, node.frame.y, node.frame.width, node.frame.height, node);
+            if (node.nodes) {
+                for (var i =0; i < node.nodes.length; ++i) {
+                    nodes.push(node.nodes[i]);
+                }
             }
         }
     }

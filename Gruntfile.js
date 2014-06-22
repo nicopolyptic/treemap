@@ -20,6 +20,7 @@ module.exports = function(grunt) {
         dest: 'target/js/<%= pkg.name %>.js',
         options: {
           target: 'es5', //or es3
+          module: 'amd',
           basePath: '/',
           sourceMap: true,
           declaration: true

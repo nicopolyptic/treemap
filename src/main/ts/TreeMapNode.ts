@@ -1,4 +1,13 @@
-module io.github.nicnguyen.treemap {
+/**
+    _   ___                        __            __  _
+   / | / (_)________  ____  ____  / /_  ______  / /_(_)____
+  /  |/ / / ___/ __ \/ __ \/ __ \/ / / / / __ \/ __/ / ___/
+ / /|  / / /__/ /_/ / /_/ / /_/ / / /_/ / /_/ / /_/ / /__
+/_/ |_/_/\___/\____/ .___/\____/_/\__, / .___/\__/_/\___/
+                  /_/            /____/_/
+**/
+
+module treemap {
 
     class SearchNode {
         node : Node;
@@ -9,8 +18,7 @@ module io.github.nicnguyen.treemap {
         nodes? : Node[];
         data?: any;
         weight?: number;
-        rectangle? : {x: number; y : number; width: number; height:number};
-        titleRectangle? : {x: number; y : number; width: number; height:number};
+        frame? : {x: number; y : number; width: number; height:number};
     }
 
     export class InternalNode implements Node {
@@ -18,8 +26,7 @@ module io.github.nicnguyen.treemap {
         public nodes : Node[];
         public data: any;
         public weight: number = 0;
-        public rectangle : {x: number; y : number; width: number; height:number} = {x:0,y:0,width:0,height:0};
-        public titleRectangle : {x: number; y : number; width: number; height:number} = {x:0,y:0,width:0,height:0};
+        public frame : {x: number; y : number; width: number; height:number} = {x:0,y:0,width:0,height:0};
 
         constructor(weight:number, data:any) {
             this.weight = weight;

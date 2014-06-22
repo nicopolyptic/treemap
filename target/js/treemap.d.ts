@@ -1,15 +1,9 @@
-declare module io.github.nicnguyen.treemap {
+declare module treemap {
     interface Node {
         nodes?: Node[];
         data?: any;
         weight?: number;
-        rectangle?: {
-            x: number;
-            y: number;
-            width: number;
-            height: number;
-        };
-        titleRectangle?: {
+        frame?: {
             x: number;
             y: number;
             width: number;
@@ -20,13 +14,7 @@ declare module io.github.nicnguyen.treemap {
         public nodes: Node[];
         public data: any;
         public weight: number;
-        public rectangle: {
-            x: number;
-            y: number;
-            width: number;
-            height: number;
-        };
-        public titleRectangle: {
+        public frame: {
             x: number;
             y: number;
             width: number;
@@ -36,16 +24,6 @@ declare module io.github.nicnguyen.treemap {
         static weigh(node: Node): void;
     }
 }
-declare module io.github.nicnguyen.treemap {
-    class Squarifier {
-        public squarify(nodes: Node[], width: number, height: number, createRectangle: (x: number, y: number, width: number, height: number, node: Node) => void): void;
-        private worst(s, min, max, w);
-        private scaleWeights(weights, width, height);
-        private max(array);
-        private min(array);
-        private sum(array);
-        private weights(array);
-        private PERCENTAGE_OF_HEIGHT_FOR_TITLE;
-        public squarifyTreeWithRootNode(rootNode: Node): void;
-    }
+declare module treemap {
+    function squarify(rootNode: Node, f: (x: number, y: number, width: number, height: number, node: Node) => void): void;
 }
