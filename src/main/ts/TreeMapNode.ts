@@ -9,16 +9,13 @@
 
 module treemap {
 
-    class SearchNode {
-        node : Node;
-        level : number;
-    }
-
     export interface Node {
+        parent? : Node;
         nodes? : Node[];
         data?: any;
         weight?: number;
         frame? : {x: number; y : number; width: number; height:number};
+        level? :number;
     }
 
     export class InternalNode implements Node {
@@ -35,17 +32,21 @@ module treemap {
 
         public static weigh (node : Node) {
             var nodeLevel2Nodes : Node[][] = new Array<Node[]>();
-            var nodeList = new Array<SearchNode>();
-            nodeList.push({node:node, level: 0});
+            var nodeList = new Array<Node>();
+            node.level = 0;
+            nodeList.push(node);
             while(nodeList.length > 0) {
                 var searchNode = nodeList.pop();
                 if (!nodeLevel2Nodes[searchNode.level]) {
                     nodeLevel2Nodes[searchNode.level] = new Array<Node>();
                 }
-                nodeLevel2Nodes[searchNode.level].push(searchNode.node);
-                if (searchNode.node.nodes) {
-                    for (var i = 0; i < searchNode.node.nodes.length; ++i) {
-                        nodeList.push({node: searchNode.node.nodes[i], level: searchNode.level + 1});
+                nodeLevel2Nodes[searchNode.level].push(searchNode);
+                if (searchNode.nodes) {
+                    for (var i = 0; i < searchNode.nodes.length; ++i) {
+                        var nextNode = searchNode.nodes[i];
+                        nextNode.level = searchNode.level + 1;
+                        nextNode.parent = searchNode;
+                        nodeList.push(nextNode);
                     }
                 }
             }

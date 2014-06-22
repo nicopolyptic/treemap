@@ -1,11 +1,5 @@
 var treemap;
 (function (treemap) {
-    var SearchNode = (function () {
-        function SearchNode() {
-        }
-        return SearchNode;
-    })();
-
     var InternalNode = (function () {
         function InternalNode(weight, data) {
             this.weight = 0;
@@ -16,16 +10,20 @@ var treemap;
         InternalNode.weigh = function (node) {
             var nodeLevel2Nodes = new Array();
             var nodeList = new Array();
-            nodeList.push({ node: node, level: 0 });
+            node.level = 0;
+            nodeList.push(node);
             while (nodeList.length > 0) {
                 var searchNode = nodeList.pop();
                 if (!nodeLevel2Nodes[searchNode.level]) {
                     nodeLevel2Nodes[searchNode.level] = new Array();
                 }
-                nodeLevel2Nodes[searchNode.level].push(searchNode.node);
-                if (searchNode.node.nodes) {
-                    for (var i = 0; i < searchNode.node.nodes.length; ++i) {
-                        nodeList.push({ node: searchNode.node.nodes[i], level: searchNode.level + 1 });
+                nodeLevel2Nodes[searchNode.level].push(searchNode);
+                if (searchNode.nodes) {
+                    for (var i = 0; i < searchNode.nodes.length; ++i) {
+                        var nextNode = searchNode.nodes[i];
+                        nextNode.level = searchNode.level + 1;
+                        nextNode.parent = searchNode;
+                        nodeList.push(nextNode);
                     }
                 }
             }
@@ -43,6 +41,47 @@ var treemap;
         return InternalNode;
     })();
     treemap.InternalNode = InternalNode;
+})(treemap || (treemap = {}));
+var treemap;
+(function (treemap) {
+    var Size = (function () {
+        function Size() {
+        }
+        return Size;
+    })();
+    treemap.Size = Size;
+
+    function maxFontSize(size) {
+        return 0.1 * (size.width + size.height);
+    }
+    treemap.maxFontSize = maxFontSize;
+
+    function minFontSize(size) {
+        return 8;
+    }
+    treemap.minFontSize = minFontSize;
+
+    function fontSize(canvasSize, tileSize) {
+        var min = this.minFontSize(canvasSize);
+        var max = this.maxFontSize(canvasSize);
+        return Math.max(min, ((tileSize.width + tileSize.height) / (canvasSize.width + canvasSize.height)) * max);
+    }
+    treemap.fontSize = fontSize;
+
+    function tileMarginPercentage() {
+        return 0.05;
+    }
+    treemap.tileMarginPercentage = tileMarginPercentage;
+
+    function xMargin(tileSize) {
+        return tileMarginPercentage() * tileSize.width;
+    }
+    treemap.xMargin = xMargin;
+
+    function yMargin(tileSize) {
+        return 0;
+    }
+    treemap.yMargin = yMargin;
 })(treemap || (treemap = {}));
 var treemap;
 (function (treemap) {

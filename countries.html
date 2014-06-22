@@ -1,0 +1,110 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="kinetic-v5.1.0.min.js"></script>
+<script type="text/javascript" src="target/js/treemap.js"></script>
+<script type="text/javascript" src="countries.json"></script>
+
+<script type="text/javascript">
+
+    $(function(){
+        var WIDTH = 700;
+        var HEIGHT = 700;
+        var stage = new Kinetic.Stage({
+            container: "container",
+            width: WIDTH,
+            height: HEIGHT
+        });
+
+        var layer = new Kinetic.Layer();
+        var textLayer = new Kinetic.Layer();
+
+        var renderer = function(x,y,w,h,n) {
+            if (n.data) {
+
+                var opacity = 1;
+                var halign = 'left';
+                var textY = y + treemap.yMargin(n.frame);
+
+                if (n.nodes) {
+                    opacity = 0.3;
+                    halign = 'center';
+                    textY = y + n.frame.height * 0.2;
+                }
+                var text = new Kinetic.Text({
+                    x: x + treemap.xMargin(n.frame),
+                    y : textY,
+                    text:n.data,
+                    fontSize:treemap.fontSize({width:WIDTH,height:HEIGHT},n.frame),
+                    fontFamily: "Tahoma, Geneva, sans-serif",
+                    fill: 'black',
+                    width : n.frame.width,
+                    height: n.frame.height,
+                    opacity:opacity,
+                    align : halign
+                });
+                textLayer.add(text);
+            }
+
+            if (!n.nodes || n.nodes.length == 0) {
+                var rect = new Kinetic.Rect({
+                        x:x,
+                        y:y,
+                        width:w,
+                        height:h,
+                        stroke:"white",
+                        strokeWidth:1,
+                        fill: n.parent.color
+                });
+
+                layer.add(rect);
+            }
+        };
+
+        var regions = {};
+        countryList.forEach(
+            function(v, i) {
+                var country = v[0];
+                var cia = v[1];
+                var imf = v[2];
+                var region = v[3];
+                var w = Math.max(cia,imf);
+                if (!regions[region]) {
+                    regions[region] = {data: region, nodes:[]};
+                }
+                regions[region].nodes.push({weight: w, data: country});
+            }
+        );
+
+        var colors = ['#FF8080', '#62A342', '#89C4FF', '#82B4CD', '#D8C0F2', '#FFBD5C', '#dddd00', '#82B482', '#FF6666', '#999966', '#8533D6'];
+        var world = {frame: {x:0, y : 0, width:WIDTH, height:WIDTH}, nodes : []};
+        for (var region in regions) {
+            world.nodes.push(regions[region]);
+        }
+
+        for (var i in world.nodes) {
+            world.nodes[i].color = colors[i % (colors.length-1)];
+        }
+
+        treemap.minFontSize = function(){return 10;};
+        treemap.squarify(world, renderer);
+
+        stage.add(layer);
+        stage.add(textLayer);
+    });
+
+
+
+
+</script>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="container"></div>
+</body>
+</html>
