@@ -7,7 +7,7 @@ An implementation for laying out rectangles in a Treemap, using the algorithm fr
 
 JavaScript is generated from TypeScript source.
 
-See countries.html for a ![demo](https://github.com/nicopolyptic/treemap/blob/master/treemap.png).
+See countries.html for a demo: http://nicopolyptic.github.io/projects/countries.html
 
 To use the code, declare a tree like this:
 
