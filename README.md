@@ -9,7 +9,7 @@ JavaScript is generated from TypeScript source.
 
 See countries.html for a demo: http://nicopolyptic.github.io/projects/countries.html
 
-To use the code, declare a tree like this:
+To create a treemap, first declare a tree like this:
 
         var tree = {
           frame: {x:0,y:0, width:100, height:100},
