@@ -1,15 +1,15 @@
 treemap
 =======
 
-Treemaps in JavaScript
+Treemaps in JavaScript (compiled from TypeScript)
 
-An implementation for laying out rectangles in a Treemap, using the algorithm from Squarified Treemaps (1999) by Mark Bruls , Kees Huizing , Jarke van Wijk.
+An implementation for laying out rectangles in a Treemap, using the algorithm from:
 
-JavaScript is generated from TypeScript source.
+Squarified Treemaps (1999) by Mark Bruls, Kees Huizing, Jarke van Wijk.
 
-See countries.html for a ![demo](https://github.com/nicopolyptic/treemap/blob/master/treemap.png).
+See countries.html for a demo: http://nicopolyptic.github.io/projects/countries.html
 
-To use the code, declare a tree like this:
+To create a treemap, first declare a tree like this:
 
         var tree = {
           frame: {x:0,y:0, width:100, height:100},
