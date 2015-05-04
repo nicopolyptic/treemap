@@ -1,11 +1,13 @@
-/**
-    _   ___                        __            __  _
-   / | / (_)________  ____  ____  / /_  ______  / /_(_)____
-  /  |/ / / ___/ __ \/ __ \/ __ \/ / / / / __ \/ __/ / ___/
- / /|  / / /__/ /_/ / /_/ / /_/ / / /_/ / /_/ / /_/ / /__
-/_/ |_/_/\___/\____/ .___/\____/_/\__, / .___/\__/_/\___/
-                  /_/            /____/_/
-**/
+/*
+     _   ___                        __            __  _
+    / | / (_)________  ____  ____  / /_  ______  / /_(_)____
+   /  |/ / / ___/ __ \/ __ \/ __ \/ / / / / __ \/ __/ / ___/
+  / /|  / / /__/ /_/ / /_/ / /_/ / / /_/ / /_/ / /_/ / /__
+ /_/ |_/_/\___/\____/ .___/\____/_/\__, / .___/\__/_/\___/
+                   /_/            /____/_/
+ */
+
+/// <reference path="TreeMapNode.ts"/>
 
 module treemap {
 
@@ -17,9 +19,9 @@ module treemap {
             height: number,
             createRectangle: (x:number,y:number,width:number,height:number,node:Node) => void
         ) {
-            var children = nodes.slice(0);
+            var children : Node[] = nodes.slice(0);
             this.scaleWeights(nodes, width, height);
-            children.sort(function(a:Node,b:Node){return b.weight-a.weight});
+            children.sort((a:Node,b:Node) => {return b.weight-a.weight});
             children.push(new InternalNode(0, null));
             var vertical = height < width;
             var w = vertical ? height : width;

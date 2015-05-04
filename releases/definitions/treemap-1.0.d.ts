@@ -13,10 +13,10 @@ declare module treemap {
         level?: number;
     }
     class InternalNode implements Node {
-        public nodes: Node[];
-        public data: any;
-        public weight: number;
-        public frame: {
+        nodes: Node[];
+        data: any;
+        weight: number;
+        frame: {
             x: number;
             y: number;
             width: number;
@@ -28,8 +28,8 @@ declare module treemap {
 }
 declare module treemap {
     class Size {
-        public width: number;
-        public height: number;
+        width: number;
+        height: number;
     }
     function maxFontSize(size: Size): number;
     function minFontSize(size: Size): number;

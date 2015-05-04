@@ -1,3 +1,11 @@
+/*
+    _   ___                        __            __  _
+   / | / (_)________  ____  ____  / /_  ______  / /_(_)____
+  /  |/ / / ___/ __ \/ __ \/ __ \/ / / / / __ \/ __/ / ___/
+ / /|  / / /__/ /_/ / /_/ / /_/ / / /_/ / /_/ / /_/ / /__
+/_/ |_/_/\___/\____/ .___/\____/_/\__, / .___/\__/_/\___/
+                  /_/            /____/_/
+*/
 var treemap;
 (function (treemap) {
     var InternalNode = (function () {
@@ -27,7 +35,6 @@ var treemap;
                     }
                 }
             }
-
             for (var i = nodeLevel2Nodes.length - 2; i >= 0; --i) {
                 for (var j = 0; j < nodeLevel2Nodes[i].length; ++j) {
                     var weight = 0;
@@ -42,6 +49,14 @@ var treemap;
     })();
     treemap.InternalNode = InternalNode;
 })(treemap || (treemap = {}));
+/*
+    _   ___                        __            __  _
+   / | / (_)________  ____  ____  / /_  ______  / /_(_)____
+  /  |/ / / ___/ __ \/ __ \/ __ \/ / / / / __ \/ __/ / ___/
+ / /|  / / /__/ /_/ / /_/ / /_/ / / /_/ / /_/ / /_/ / /__
+/_/ |_/_/\___/\____/ .___/\____/_/\__, / .___/\__/_/\___/
+                  /_/            /____/_/
+*/
 var treemap;
 (function (treemap) {
     var Size = (function () {
@@ -50,39 +65,42 @@ var treemap;
         return Size;
     })();
     treemap.Size = Size;
-
     function maxFontSize(size) {
         return 0.1 * (size.width + size.height);
     }
     treemap.maxFontSize = maxFontSize;
-
     function minFontSize(size) {
         return 8;
     }
     treemap.minFontSize = minFontSize;
-
     function fontSize(canvasSize, tileSize) {
         var min = this.minFontSize(canvasSize);
         var max = this.maxFontSize(canvasSize);
         return Math.max(min, ((tileSize.width + tileSize.height) / (canvasSize.width + canvasSize.height)) * max);
     }
     treemap.fontSize = fontSize;
-
     function tileMarginPercentage() {
         return 0.05;
     }
     treemap.tileMarginPercentage = tileMarginPercentage;
-
     function xMargin(tileSize) {
         return tileMarginPercentage() * tileSize.width;
     }
     treemap.xMargin = xMargin;
-
     function yMargin(tileSize) {
         return tileMarginPercentage() * tileSize.height;
     }
     treemap.yMargin = yMargin;
 })(treemap || (treemap = {}));
+/*
+     _   ___                        __            __  _
+    / | / (_)________  ____  ____  / /_  ______  / /_(_)____
+   /  |/ / / ___/ __ \/ __ \/ __ \/ / / / / __ \/ __/ / ___/
+  / /|  / / /__/ /_/ / /_/ / /_/ / / /_/ / /_/ / /_/ / /__
+ /_/ |_/_/\___/\____/ .___/\____/_/\__, / .___/\__/_/\___/
+                   /_/            /____/_/
+ */
+/// <reference path="TreeMapNode.ts"/>
 var treemap;
 (function (treemap) {
     var Squarifier = (function () {
@@ -91,9 +109,7 @@ var treemap;
         Squarifier.squarify = function (nodes, width, height, createRectangle) {
             var children = nodes.slice(0);
             this.scaleWeights(nodes, width, height);
-            children.sort(function (a, b) {
-                return b.weight - a.weight;
-            });
+            children.sort(function (a, b) { return b.weight - a.weight; });
             children.push(new treemap.InternalNode(0, null));
             var vertical = height < width;
             var w = vertical ? height : width;
@@ -112,7 +128,8 @@ var treemap;
                 if (row.length == 0 || wit < without) {
                     row.push(c);
                     children.shift();
-                } else {
+                }
+                else {
                     var rx = x;
                     var ry = y;
                     var z = s / w;
@@ -122,7 +139,8 @@ var treemap;
                         if (vertical) {
                             createRectangle(rx, ry, z, d, row[j]);
                             ry = ry + d;
-                        } else {
+                        }
+                        else {
                             createRectangle(rx, ry, d, z, row[j]);
                             rx = rx + d;
                         }
@@ -130,37 +148,32 @@ var treemap;
                     if (vertical) {
                         x = x + z;
                         rw = rw - z;
-                    } else {
+                    }
+                    else {
                         y = y + z;
                         rh = rh - z;
                     }
-
                     vertical = rh < rw;
                     w = vertical ? rh : rw;
                     row = [];
                 }
             }
         };
-
         Squarifier.worst = function (s, min, max, w) {
             return Math.max(w * w * max / (s * s), s * s / (w * w * min));
         };
-
         Squarifier.scaleWeights = function (weights, width, height) {
             var scale = width * height / this.sum(weights);
             for (var i = 0; i < weights.length; i++) {
                 weights[i].weight = scale * weights[i].weight;
             }
         };
-
         Squarifier.max = function (array) {
             return Math.max.apply(Math, this.weights(array));
         };
-
         Squarifier.min = function (array) {
             return Math.min.apply(Math, this.weights(array));
         };
-
         Squarifier.sum = function (array) {
             var total = 0;
             for (var i = 0; i < array.length; ++i) {
@@ -168,20 +181,15 @@ var treemap;
             }
             return total;
         };
-
         Squarifier.weights = function (array) {
-            return array.map(function (d) {
-                return d.weight;
-            }, array);
+            return array.map(function (d) { return d.weight; }, array);
         };
         return Squarifier;
     })();
-
     function squarify(rootNode, f) {
         treemap.InternalNode.weigh(rootNode);
         var nodes = new Array();
         nodes.push(rootNode);
-
         while (nodes.length > 0) {
             var node = nodes.shift();
             if (node.nodes && node.nodes.length > 0) {
@@ -193,7 +201,6 @@ var treemap;
                         height: height
                     };
                 });
-
                 for (var i = 0; i < node.nodes.length; ++i) {
                     var childNode = node.nodes[i];
                     if (childNode.nodes && childNode.nodes.length > 0) {
@@ -202,7 +209,6 @@ var treemap;
                 }
             }
         }
-
         nodes.push(rootNode);
         while (nodes.length > 0) {
             var node = nodes.pop();
@@ -216,4 +222,5 @@ var treemap;
     }
     treemap.squarify = squarify;
 })(treemap || (treemap = {}));
-//# sourceMappingURL=treemap.js.map
+
+//# sourceMappingURL=treemap-1.0.js.map

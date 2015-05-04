@@ -1,0 +1,25 @@
+{
+  "name": "treemap",
+  "version": "1.0",
+  "homepage": "https://github.com/nicopolyptic/treemap",
+  "authors": [
+    "nicopolyptic@outlook.com"
+  ],
+  "description": "Treemap visualisation",
+  "main": "treemap-1.0.min.js",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "treemap",
+    "visualisation"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

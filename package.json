@@ -1,12 +1,24 @@
 {
   "name": "treemap",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-nodeunit": "~0.3.3",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-typescript": "",
-    "grunt-contrib-jasmine": "~0.6.4"
+    "gulp-uglify": "~1.2.0",
+    "gulp-rename": "~1.2.2",
+    "del": "~1.1.1",
+    "gulp-concat": "~2.5.2",
+    "gulp-minify-css": "~1.1.0",
+    "gulp-cache": "~0.2.9",
+    "gulp-notify": "~2.2.0",
+    "gulp-jshint": "~1.10.0",
+    "gulp-typescript": "~2.6.0",
+    "merge2": "~0.3.5",
+    "gulp-header": "~1.2.2",
+    "fs": "0.0.2",
+    "typescript": "1.5.0-alpha",
+    "gulp-sourcemaps": "~1.5.2",
+    "multipipe": "~0.1.2",
+    "gulp-mirror": "~0.4.0",
+    "gulp-clone": "~1.0.0",
+    "uglify-js": "~2.4.20"
   }
 }
